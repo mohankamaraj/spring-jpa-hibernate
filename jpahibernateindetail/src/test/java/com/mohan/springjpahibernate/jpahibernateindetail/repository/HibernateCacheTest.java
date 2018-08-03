@@ -27,21 +27,21 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	// So no first level caching here
 	public void findByIdTwiceNonTransactional(){
 		Optional<Course> course = respoistory.findById(10001L);
-		logger.info("First Course {}", course.get());
+		logger.info("1 First Course {}", course.get());
 		
 		Optional<Course> course1 = respoistory.findById(10001L);
-		logger.info("First Course again {}", course1.get());
+		logger.info("1 First Course again {}", course1.get());
 	}
 	
-	@Test
+	//@Test
 	@Transactional
 	// Since there is Transaction, only one select query executed in the background
 	// So first level caching is working as expected with in the transaction
 	public void findByIdTwice(){
 		Optional<Course> course = respoistory.findById(10001L);
-		logger.info("First Course {}", course.get());
+		logger.info("2 First Course {}", course.get());
 		
 		Optional<Course> course1 = respoistory.findById(10001L);
-		logger.info("First Course again {}", course1.get());
+		logger.info("2 First Course again {}", course1.get());
 	}
 }
