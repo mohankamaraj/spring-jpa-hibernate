@@ -25,7 +25,7 @@ public class Student {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToOne(fetch=FetchType.LAZY,  cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToOne(fetch=FetchType.LAZY,  cascade={/*CascadeType.PERSIST,*/ CascadeType.REMOVE}, orphanRemoval=true)
 	private	Passport passport;
 	
 	@ManyToMany(fetch=FetchType.LAZY)

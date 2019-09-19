@@ -61,7 +61,7 @@ public class CriteriaQueryTest {
 		// 2. Define roots for tables which are involved in the query 
 		Root<Course> cR = cq.from(Course.class);
 		// 3. Define Predicates etc using Criteria Builder
-		Predicate predicate = builder.like(cR.get("name"), "%100 Steps");
+		Predicate predicate = builder.like(cR.get("name"), "%100 Steps");   // Can use meta model approach to resolve this issue https://tododev.wordpress.com/2014/08/05/compile-time-checking-jpa-queries/
 		// 4. Add Predicates etc to the Criteria Query
 		cq.where(predicate);
 		// 5. Build the typed query using the entity manager and criteria query

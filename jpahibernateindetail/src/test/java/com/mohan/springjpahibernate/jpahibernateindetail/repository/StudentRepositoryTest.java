@@ -68,7 +68,7 @@ public class StudentRepositoryTest {
 	@Commit
 	@DirtiesContext
 	// Make Sure no casecade operation configured for passport inside student entity
-	// saving student will not persist passport
+	// saving student will not persist passport. it will throw TransientPropertyValueException
 	//@OneToOne(fetch=FetchType.LAZY)
 	public void playWithStudentWithPassportSimpleAndNoCascade(){
 		Student student = new Student("testing student");
@@ -224,12 +224,10 @@ public class StudentRepositoryTest {
 	}
 	
 	@Transactional
-	//@Test
+	@Test
 	@Commit
 	@DirtiesContext
-	// trying to add passport object by passing the new student object
-	// No persist casecade or anything
-	// Expectation student not saved.
+	// below example will work fine
 	//@OneToOne(fetch=FetchType.LAZY)
 	public void addNewPassportwithStudentNoCascadePersistBoth(){
 		try{
@@ -312,7 +310,7 @@ public class StudentRepositoryTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void addStudentWithDetails(){
 		Student student = new Student("Mohan");
 		Address address = new Address();

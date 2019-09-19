@@ -34,7 +34,19 @@ public class JPQLTest {
 	
 	@Test
 	public void course_all(){
+		
+		//Example of non typed query
+		// You will have get the following warning. The warning will show up even if you do explicit casting
+		// Type safety: The expression of type List needs unchecked conversion to conform to List<Course>
+		// Reference: https://stackoverflow.com/questions/16475436/warning-unchecked-unchecked-conversion
+		/*Query q = em.createQuery("select c from Course c");
+		List<Course> resultList1 = q.getResultList();*/
+		
+		// em.createQuery("select c from Course c", Course.class) gives the typed query
+		//https://stackoverflow.com/questions/33236664/difference-between-query-native-query-named-query-and-typed-query
+		
 		List<Course> resultList = em.createQuery("select c from Course c", Course.class).getResultList();
+		
 		logger.info("results -> {}", resultList);
 		assertEquals(3, resultList.size());
 		
@@ -62,6 +74,7 @@ public class JPQLTest {
 	
 	@Test
 	// My SQL : select * from course where course.id not in(select course_id from student_course, student where  student_course.student_id = student.id);
+	// My SQL : select c.name, c.id from course c left join student_course sc on c.id = sc.course_id where sc.course_id is null;
 	public void courses_without_students(){
 		List<Course> resultList = em.createQuery("select c from Course c where c.students is empty", Course.class).getResultList();
 		logger.info("courses with out students -> {}", resultList);
@@ -74,6 +87,8 @@ public class JPQLTest {
     //						(select course_id, count(course_id) as count from  student_course,  student where student_course.student_id = student.id group by course_id) 
 	//				where count >=2
 	//			);
+	
+	// select c.id from course c left join student_course sc on c.id = sc.course_id group by c.id having count(sc.student_id)>=2;
 	public void courses_with_minimum_two_students(){
 		List<Course> resultList = em.createQuery("select c from Course c where size(c.students)>=2", Course.class).getResultList();
 		logger.info("courses with minimum 2 students -> {}", resultList);
